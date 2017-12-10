@@ -1,0 +1,24 @@
+line 1 of included content
+line 2 of included content
+line 3 of included content
+line 4 of included content
+line 5 of included content
+line 6 of included content
+line 7 of included content
+line 8 of included content
+
+// tag::snippet[]
+// tag::snippet-a[]
+snippet-a content
+// end::snippet-a[]
+
+non-tagged content
+
+// tag::snippet-b[]
+snippet-b content
+// end::snippet-b[]
+// end::snippet[]
+
+more non-tagged content
+
+last line of included content

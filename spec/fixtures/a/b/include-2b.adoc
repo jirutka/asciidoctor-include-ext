@@ -1,0 +1,5 @@
+begin of include 2b
+
+include::../include-3.adoc[]
+
+end of include 2b

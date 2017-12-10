@@ -1,0 +1,7 @@
+begin of include 1
+
+include::../include-2a.adoc[]
+
+include::b/include-2b.adoc[]
+
+end of include 1
