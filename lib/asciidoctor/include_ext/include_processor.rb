@@ -5,6 +5,7 @@ require 'open-uri'
 require 'asciidoctor/include_ext/version'
 require 'asciidoctor/include_ext/reader_ext'
 require 'asciidoctor/include_ext/lineno_lines_selector'
+require 'asciidoctor/include_ext/tag_lines_selector'
 require 'asciidoctor/extensions'
 
 module Asciidoctor::IncludeExt
@@ -19,7 +20,7 @@ module Asciidoctor::IncludeExt
     #   (see <http://asciidoctor.org/docs/user-manual#include-partial>).
     # @param logger [Logger] the logger to use for logging warning and errors
     #   from this object and selectors.
-    def initialize(selectors: [LinenoLinesSelector],
+    def initialize(selectors: [LinenoLinesSelector, TagLinesSelector],
                    logger: Logger.new(STDERR), **)
       super
       @selectors = selectors.dup.freeze

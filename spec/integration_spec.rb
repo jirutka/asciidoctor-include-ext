@@ -93,6 +93,36 @@ describe 'Integration tests' do
       should_not match /line 2/
       should_not match /line 5/
     end
+
+    it 'supports tagged selection' do
+      given 'include::include-file.adoc[tag=snippet-a]'
+
+      should match /snippet-a content/
+      should_not match /snippet-b content/
+      should_not match /non-tagged content/
+      should_not match /included content/
+    end
+
+    it 'supports multiple tagged selection' do
+      given 'include::include-file.adoc[tag="snippet-a,snippet-b"]'
+
+      should match /snippet-a content/
+      should match /snippet-b content/
+      should_not match /non-tagged content/
+      should_not match /included content/
+    end
+
+    it 'supports tagged selection in language that uses circumfix comments' do
+      given <<-ADOC.unindent
+        [source, ml]
+        ----
+        include::include-file.ml[tag=snippet]
+        ----
+      ADOC
+
+      should match /let s = SS.empty;;/
+      should_not match /(?:tag|end)::snippet\[\]/
+    end
   end
 
 
