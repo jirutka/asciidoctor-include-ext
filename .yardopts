@@ -1,0 +1,6 @@
+--title "Asciidoctor Rouge Documentation"
+--default-return void
+--protected
+--markup markdown
+-
+LICENSE
