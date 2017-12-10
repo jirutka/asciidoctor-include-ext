@@ -16,14 +16,14 @@ matrix:
     - rvm: jruby-head
 env:
   global:
-    secure: # CODACY_PROJECT_TOKEN
+    secure: "TjlWUc2XmQa3exPjXuWuF2KM53bCRsX9vDfi4QEdCF4A1ffT8FquX/wPrZnUTUbPweRhZoJe9hh6D2UfuFsVIm3QEnLdKD7Vstua2tRfCyqJdLyK8Iil2AQr1xmyt2gqm79PMpfczu4Pubfd84iMNPa4+frMm4pAbFjm478w1blewgmImFVM1OjIYfBpFPqnsihCHFmExG8fpKg4AD6AMNZkzfStP+n/7y+WTJ3SbRqmJfkEUiH/u3YNsutJO6kBbGSjEhmwXQQ2FJhkkquBkH2STWcusk66FzLmAYL10Wkdtv8Yu1EXzcxbHxFZjhjAHmMahSeiS8BRM8HnD6XaKCBdnAsLllV2kjzta9OKQTv5NyYJkvDhlPzlMu58QanSQg3PwHqXfLcA85dxaNhWw6ZibUS0NbwlL5mUmG7AqaaASAZRPiaK3jSuT9cijKU4cvpvgnjbPUTiTy9xFZs2TskxU5/8KJPNDokmonqSH2JM7IxxINKxsVeXc6TtYSLQphW/PfGLeXGaYZYsRxLdmVch6tJIC91j/Qt+hKbnD8rpRh38/rqHEqIZsHCS+6qZVdNUw/ca/v69c+LZX2wXOL9SHwJ7ZCIit7wrOjAoot/HDgvTH0M7y8lccip0uoTaDgYoj8xY3pWExFRm9JwPK8SkXay5rMc35p8b4f+9r34="  # CODACY_PROJECT_TOKEN
 script:
   - bundle exec rake spec
   - bundle exec rake rubocop
 deploy:
   provider: rubygems
   api_key:
-    secure: <RUBYGEMS KEY>
+    secure: "SC/PElVXXnYvzfnXyJk1pMZ1pOtAhtgWJjsMFVpG5/0dLGBG+EbZidz77mwCfYmn3jbzOB65j9h7kDTjj8ivrDmsfonnA/81LW10RVsPpjQ759PkadcLsaeLgu7ob1dzDJ8p15bEKeTfqeeOPfPoSo8qdsLGuD6jcLIJOYJvhzsUPeTpuu7thCkbOGW32niBdC3eK6jX8eW6KTQldElynjkjVe1cu/y19LXevBM+ypxZMgycC+NxYRml9Ss/2GYcOAGUrautnQpXrn9iNriZwsezpGXtMlkr4aS80RhhUMRhj9Sqw8R62SpAXJCRDjlzo+ZKra49p2KtTxDaBF31yihcdh4KhaMSQkb+c3iBa11hrySfwu/6FfzOUQkf3BYJAm+PuOBbrkq8OJXZlRH04QkZXyZqAQJ3DV8Z9XLT3WckeaUdOkxtMwXA0h+BIfWHP4Ny0/UBy6IzWrP44e+EB8zkJmeolCAMwGY1e979GpanjBVxd0Fe4QPWSv/jDDJ0SVR/aYPZIT0GWr4k0H/3A89jG51AUU/4j8AIFAkF/Gg2rA38DPk7GQzkL/QF63TL4VvI9hWDpuqHgR25HHfCsJvcozO9o7laFg8oBNJWYEgcQfFhVNYhqg2BsOG/3rHozdeDJ3NbI0ciN6nqsgcje96HvR0n/xOBGksEUkba/Xg="
   on:
     rvm: 2.4
     tags: true
