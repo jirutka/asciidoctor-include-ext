@@ -81,6 +81,18 @@ describe 'Integration tests' do
         should_not match /unresolved/i
       end
     end
+
+    it 'supports line selection' do
+      given 'include::include-file.adoc[lines=1;3..4;6..-1]'
+
+      %w[1 3 4 6 7 8].each do |n|
+        should match /line #{n} of included content/
+      end
+      should match /last line/
+
+      should_not match /line 2/
+      should_not match /line 5/
+    end
   end
 
 
