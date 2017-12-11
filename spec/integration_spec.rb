@@ -8,12 +8,10 @@ using Corefines::String::unindent
 
 describe 'Integration tests' do
 
-  subject(:output) { ::Asciidoctor.convert(@input, @options) }
+  subject(:output) { Asciidoctor.convert(input, options) }
 
-  before do
-    @input = nil
-    @options = { safe: :safe, header_footer: false, base_dir: FIXTURES_DIR }
-  end
+  let(:input) { '' }  # this is modified in #given
+  let(:options) {{ safe: :safe, header_footer: false, base_dir: FIXTURES_DIR }}
 
   describe 'include::[] directive' do
 
@@ -128,9 +126,9 @@ describe 'Integration tests' do
 
   #----------  Helpers  ----------
 
-  def given(input, options = {})
-    @input = input
-    @options.merge!(options)
+  def given(str, opts = {})
+    input.replace(str)
+    options.merge!(opts)
   end
 
   def using_test_webserver
