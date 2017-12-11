@@ -164,7 +164,7 @@ module Asciidoctor::IncludeExt
       tags_def.split(/[,;]/).each_with_object({}) do |atom, tags|
         if atom.start_with? '!'
           tags[atom[1..-1]] = false if atom != '!'
-        else
+        elsif !atom.empty?
           tags[atom] = true
         end
       end
