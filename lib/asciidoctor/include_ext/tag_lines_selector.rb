@@ -40,7 +40,12 @@ module Asciidoctor::IncludeExt
     #   `include::[]`s attributes slot. It must contain a key `"tag"` or `"tags"`.
     # @param logger [Logger]
     def initialize(target, attributes, logger: Logger.new(STDERR), **)
-      tag_flags = parse_attribute(attributes['tag'] || attributes['tags'])
+      tag_flags =
+        if attributes.key? 'tag'
+          parse_attribute(attributes['tag'], true)
+        else
+          parse_attribute(attributes['tags'])
+        end
 
       wildcard = tag_flags.delete('*')
       if tag_flags.key? '**'
@@ -158,10 +163,14 @@ module Asciidoctor::IncludeExt
 
     # @param tags_def [String] a comma or semicolon separated names of tags to
     #   be selected, or rejected if prefixed with "!".
+    # @param single [Boolean] whether the *tags_def* should be parsed as
+    #   a single tag name (i.e. without splitting on comma/semicolon).
     # @return [Hash<String, Boolean>] a Hash with tag names as keys and boolean
     #   flags as values.
-    def parse_attribute(tags_def)
-      tags_def.split(/[,;]/).each_with_object({}) do |atom, tags|
+    def parse_attribute(tags_def, single = false)
+      atoms = single ? [tags_def] : tags_def.split(/[,;]/)
+
+      atoms.each_with_object({}) do |atom, tags|
         if atom.start_with? '!'
           tags[atom[1..-1]] = false if atom != '!'
         elsif !atom.empty?

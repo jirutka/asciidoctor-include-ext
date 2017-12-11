@@ -104,7 +104,7 @@ describe 'Integration tests' do
     end
 
     it 'supports multiple tagged selection' do
-      given 'include::include-file.adoc[tag="snippet-a,snippet-b"]'
+      given 'include::include-file.adoc[tags="snippet-a,snippet-b"]'
 
       should match /snippet-a content/
       should match /snippet-b content/
