@@ -18,5 +18,3 @@ unless RUBY_ENGINE == 'jruby'
     add_filter '/spec/'
   end
 end
-
-require 'asciidoctor-include-ext'

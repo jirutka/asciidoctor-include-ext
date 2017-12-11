@@ -1,4 +1,5 @@
 require_relative 'spec_helper'
+require 'asciidoctor/include_ext/include_processor'
 require 'corefines'
 require 'webrick'
 
@@ -11,7 +12,26 @@ describe 'Integration tests' do
   subject(:output) { Asciidoctor.convert(input, options) }
 
   let(:input) { '' }  # this is modified in #given
-  let(:options) {{ safe: :safe, header_footer: false, base_dir: FIXTURES_DIR }}
+  let(:processor) { Asciidoctor::IncludeExt::IncludeProcessor.new }
+
+  let(:options) {
+    processor_ = processor
+    {
+      safe: :safe,
+      header_footer: false,
+      base_dir: FIXTURES_DIR,
+      extensions: proc { include_processor processor_ },
+    }
+  }
+
+  before do
+    # XXX: Ugly hack to get rid of rspec-mocks' warnings about resetting
+    # frozen object; https://github.com/rspec/rspec-mocks/issues/1190.
+    processor.define_singleton_method(:freeze) { self }
+
+    # Make sure that Asciidoctor really calls our processor.
+    expect(processor).to receive(:process).at_least(:once).and_call_original
+  end
 
   describe 'include::[] directive' do
 
