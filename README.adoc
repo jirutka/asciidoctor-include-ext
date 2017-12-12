@@ -2,7 +2,6 @@
 :source-language: shell
 // custom
 :gem-name: asciidoctor-include-ext
-:gem-version: 0.0.0
 :gh-name: jirutka/{gem-name}
 :gh-branch: master
 :codacy-id: 45320444129044688ef6553821b083f1
@@ -16,7 +15,25 @@ image:https://img.shields.io/badge/yard-docs-blue.svg[Yard Docs, link="http://ww
 endif::env-github[]
 
 
-TODO
+This project is a reimplementation of the http://asciidoctor.org[Asciidoctor]’s built-in (pre)processor for the http://asciidoctor.org/docs/user-manual/#include-directive[include::[\]] directive in extensible and more clean way.
+It provides the same features, but you can easily adjust it or extend for your needs.
+For example, you can change how it loads included files or add another ways how to select portions of the document to include.
+
+
+== Why?
+
+You may ask why I _reimplemented_ something that is already in the Asciidoctor core.
+
+Well…
+Code for decision if the include is allowed, parsing attributes for partial selection, reading the file to be included, filtering its content according to `lines` or `tags` attribute, handling errors… all of this is implemented directly in a single 210 lines long method https://github.com/asciidoctor/asciidoctor/blob/911d0bd509f369e9da15d2bb71f81aecb7c45fec/lib/asciidoctor/reader.rb#L824-L1034[Asciidoctor::Reader#preprocess_include_directive] with really horrible perl-like spaghetti code. :spaghetti: :hankey:
+
+How can you adjust it or reuse outside of the Asciidoctor codebase?
+For example, what if you can’t read documents directly from file system?
+Then you’re out of luck.
+There’s no way how to do that without reimplementing this whole mess on your own (monkey-patching `Kernel.open` and `File.file?` is not a sensible option…).
+
+I wrote this extension to allow implementing a complete support of `include::[]` directive in GitLab.
+And also to open doors for adding some custom _selectors_, e.g. selecting lines using regular expression in addition to ranges of line numbers and tags.
 
 
 == Installation
@@ -34,7 +51,16 @@ gem install {gem-name} --pre
 
 == Usage
 
-TODO
+Just `require '{gem-name}'`.
+If you invoke Asciidoctor from command-line, use option `-r` to load the extension:
+
+[source, subs="+attributes"]
+asciidoctor -r {gem-name} README.adoc
+
+If you don’t want the extension to be automatically registered in Asciidoctor, don’t _require_ `{gem-name}`, but `asciidoctor/include_ext/include_processor`.
+
+IMPORTANT: Bundler automatically _requires_ all the specified gems.
+           To prevent it, use `gem '{gem-name}', require: false`.
 
 
 == License
