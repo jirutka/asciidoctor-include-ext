@@ -34,7 +34,7 @@ module Asciidoctor::IncludeExt
     #   `include::[]` directive.
     def process(_, reader, target, attributes)
       unless include_allowed? target, reader
-        reader.replace_next_line("link:#{target}[]")
+        reader.unshift_line("link:#{target}[]")
         return
       end
 
@@ -134,7 +134,7 @@ module Asciidoctor::IncludeExt
     # @param target (see #process)
     # @param reader (see #process)
     def unresolved_include!(target, reader)
-      reader.replace_next_line("Unresolved directive in #{reader.path} - include::#{target}[]")
+      reader.unshift_line("Unresolved directive in #{reader.path} - include::#{target}[]")
     end
 
     private
