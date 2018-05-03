@@ -55,18 +55,12 @@ module Asciidoctor::IncludeExt
         default_state = !tag_flags.value?(true)
       end
 
-      if (circ_cmt = ::Asciidoctor::CIRCUMFIX_COMMENTS[File.extname(target)])
-        # Note: "\s" instead of more practical "\s+" is here for compatibility
-        # with Asciidoctor.
-        suffix_rx = "(?:\s#{::Regexp.escape(circ_cmt[:suffix])})?"
-      end
-
       # "immutable"
       @target = target
       @logger = logger
       @tag_flags = tag_flags.freeze
       @wildcard = wildcard
-      @tag_directive_rx = /\b(?:tag|(end))::(\S+)\[\]#{suffix_rx}$/.freeze
+      @tag_directive_rx = /\b(?:tag|(end))::(\S+)\[\](?=$| )/.freeze
 
       # mutable (state variables)
       @stack = [[nil, default_state]]

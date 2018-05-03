@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'asciidoctor/reader'
+require 'asciidoctor'
 
 # Monkey-patch Reader to add #document.
 class Asciidoctor::Reader

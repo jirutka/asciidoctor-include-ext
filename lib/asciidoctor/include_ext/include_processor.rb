@@ -6,6 +6,7 @@ require 'asciidoctor/include_ext/version'
 require 'asciidoctor/include_ext/reader_ext'
 require 'asciidoctor/include_ext/lineno_lines_selector'
 require 'asciidoctor/include_ext/tag_lines_selector'
+require 'asciidoctor'
 require 'asciidoctor/extensions'
 
 module Asciidoctor::IncludeExt
