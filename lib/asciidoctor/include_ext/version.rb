@@ -3,6 +3,6 @@
 module Asciidoctor
   module IncludeExt
     # Version of the asciidoctor-include-ext gem.
-    VERSION = '0.2.0'.freeze
+    VERSION = '0.3.0'.freeze
   end
 end
