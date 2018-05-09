@@ -4,6 +4,7 @@ require 'set'
 
 require 'asciidoctor'
 require 'asciidoctor/include_ext/version'
+require 'asciidoctor/include_ext/logging'
 
 module Asciidoctor::IncludeExt
   # Lines selector that selects lines of the content based on the specified tags.
@@ -39,7 +40,7 @@ module Asciidoctor::IncludeExt
     # @param attributes [Hash<String, String>] the attributes parsed from the
     #   `include::[]`s attributes slot. It must contain a key `"tag"` or `"tags"`.
     # @param logger [Logger]
-    def initialize(target, attributes, logger: Logger.new(STDERR), **)
+    def initialize(target, attributes, logger: Logging.default_logger, **)
       tag_flags =
         if attributes.key? 'tag'
           parse_attribute(attributes['tag'], true)
