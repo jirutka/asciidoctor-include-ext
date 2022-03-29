@@ -113,10 +113,16 @@ module Asciidoctor::IncludeExt
     #   the line number. If `nil` is given, all lines are passed.
     # @return [Array<String>] an array of read lines.
     def read_lines(path, selector)
-      if selector
-        IO.foreach(path).select.with_index(1, &selector)
-      else
-        URI.open(path, &:read)
+      # IO.open is deliberately not used directly to avoid potential security risks.
+      # TODO: Get rid of 'open-uri' (URI.open).
+      io = target_http?(path) ? URI : File
+
+      io.open(path) do |f|
+        if selector
+          f.each.select.with_index(1, &selector)
+        else
+          f.read
+        end
       end
     end
 
