@@ -49,6 +49,9 @@ or to install the latest development version:
 gem install {gem-name} --pre
 
 
+WARNING: Versions *prior 0.4.0* are vulnerable for Command Injection (see https://github.com/{gh-name}/commit/c7ea001a597c7033575342c51483dab7b87ae155[c7ea001] for more information). If you use an older version, update to 0.4.0 immediately!
+
+
 == Usage
 
 Just `require '{gem-name}'`.
