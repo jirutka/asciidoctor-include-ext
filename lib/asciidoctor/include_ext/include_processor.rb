@@ -115,7 +115,7 @@ module Asciidoctor::IncludeExt
       if selector
         IO.foreach(filename).select.with_index(1, &selector)
       else
-        open(filename, &:read)
+        URI.open(filename, &:read)
       end
     end
 
