@@ -25,7 +25,7 @@ EOF
   s.add_runtime_dependency 'asciidoctor', '>= 1.5.6', '< 3.0.0'
 
   s.add_development_dependency 'corefines', '~> 1.11'
-  s.add_development_dependency 'kramdown', '~> 1.16'
+  s.add_development_dependency 'kramdown', '~> 2.0'
   s.add_development_dependency 'rake', '~> 12.0'
   s.add_development_dependency 'rspec', '~> 3.7'
   s.add_development_dependency 'rubocop', '~> 0.51.0'
