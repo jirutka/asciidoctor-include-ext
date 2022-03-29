@@ -1,0 +1,64 @@
+name: CI
+on:
+  - push
+  - pull_request
+
+jobs:
+  test:
+    name: Test with Asciidoctor ${{ matrix.asciidoctor }} on Ruby ${{ matrix.ruby }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - '2.5'
+          - '2.4'
+          - '2.3'
+          - '2.2'
+          - jruby-head
+        asciidoctor: [2.0.6]
+        include:
+          - { asciidoctor: 2.0.6     , ruby: 2.5 }
+          - { asciidoctor: 1.5.8     , ruby: 2.5 }
+          - { asciidoctor: 1.5.7.1   , ruby: 2.5 }
+          - { asciidoctor: 1.5.7     , ruby: 2.5 }
+          - { asciidoctor: 1.5.6.2   , ruby: 2.5 }
+          - { asciidoctor: 1.5.6.1   , ruby: 2.4 }
+          - { asciidoctor: 1.5.6     , ruby: 2.4 }
+          - { asciidoctor: 'git:main', ruby: 2.5 }
+    env:
+      CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      ASCIIDOCTOR_VERSION: ${{ matrix.asciidoctor }}
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.asciidoctor == 'git:main' }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - run: bundle exec rake spec
+      - run: bundle exec rake rubocop
+
+  publish:
+    name: Publish to RubyGems
+    needs: [test]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+          bundler-cache: true
+
+      - name: Publish to RubyGems
+        run: |
+          install -D -m 0600 /dev/null $HOME/.gem/credentials
+          printf -- '---\n:rubygems_api_key: %s\n' "$RUBYGEMS_API_KEY" > $HOME/.gem/credentials
+          gem build *.gemspec
+          gem push *.gem
+        env:
+          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
