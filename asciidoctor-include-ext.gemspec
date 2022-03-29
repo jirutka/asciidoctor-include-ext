@@ -23,7 +23,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'asciidoctor', '>= 1.5.6', '< 3.0.0'
 
-  s.add_development_dependency 'corefines', '~> 1.11'
   s.add_development_dependency 'kramdown', '~> 2.0'
   s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'rspec', '~> 3.7'
