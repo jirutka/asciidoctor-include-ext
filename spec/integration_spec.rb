@@ -138,6 +138,20 @@ describe 'Integration tests' do
       should match /let s = SS.empty;;/
       should_not match /(?:tag|end)::snippet\[\]/
     end
+
+    it 'does not allow execution of system command when allow-uri-read is set' do
+      options.merge!(attributes: { 'allow-uri-read' => '' })
+      given <<~ADOC
+        :app-name: |cat LICENSE # + \\
+        http://test.com
+
+        include::{app-name}[]
+      ADOC
+
+      should match /unresolved/i
+      should_not match /The MIT License/
+    end
+
   end
 
 

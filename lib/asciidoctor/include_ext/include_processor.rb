@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'logger'
 require 'open-uri'
+require 'uri'
 
 require 'asciidoctor/include_ext/version'
 require 'asciidoctor/include_ext/reader_ext'
@@ -86,7 +87,7 @@ module Asciidoctor::IncludeExt
 
       return false if doc.safe >= ::Asciidoctor::SafeMode::SECURE
       return false if doc.attributes.fetch('max-include-depth', 64).to_i < 1
-      return false if target_uri?(target) && !doc.attributes.key?('allow-uri-read')
+      return false if target_http?(target) && !doc.attributes.key?('allow-uri-read')
       true
     end
 
@@ -94,7 +95,7 @@ module Asciidoctor::IncludeExt
     # @param reader (see #process)
     # @return [String, nil] file path or URI of the *target*, or `nil` if not found.
     def resolve_target_path(target, reader)
-      return target if target_uri? target
+      return target if target_http? target
 
       # Include file is resolved relative to dir of the current include,
       # or base_dir if within original docfile.
@@ -106,16 +107,16 @@ module Asciidoctor::IncludeExt
     # Reads the specified file as individual lines, filters them using the
     # *selector* (if provided) and returns those lines in an array.
     #
-    # @param filename [String] path of the file to be read.
+    # @param path [String] URL or path of the file to be read.
     # @param selector [#to_proc, nil] predicate to filter lines that should be
     #   included in the output. It must accept two arguments: line and
     #   the line number. If `nil` is given, all lines are passed.
     # @return [Array<String>] an array of read lines.
-    def read_lines(filename, selector)
+    def read_lines(path, selector)
       if selector
-        IO.foreach(filename).select.with_index(1, &selector)
+        IO.foreach(path).select.with_index(1, &selector)
       else
-        URI.open(filename, &:read)
+        URI.open(path, &:read)
       end
     end
 
@@ -142,9 +143,13 @@ module Asciidoctor::IncludeExt
     private
 
     # @param target (see #process)
-    # @return [Boolean] `true` if the *target* is an URI, `false` otherwise.
-    def target_uri?(target)
-      ::Asciidoctor::Helpers.uriish?(target)
+    # @return [Boolean] `true` if the *target* is a valid HTTP(S) URI, `false` otherwise.
+    def target_http?(target)
+      # First do a fast test, then try to parse it.
+      target.downcase.start_with?('http://', 'https://') \
+        && URI.parse(target).is_a?(URI::HTTP)
+    rescue URI::InvalidURIError
+      false
     end
   end
 end
