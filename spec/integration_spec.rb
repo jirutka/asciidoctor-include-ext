@@ -1,11 +1,8 @@
 require_relative 'spec_helper'
 require 'asciidoctor/include_ext/include_processor'
-require 'corefines'
 require 'webrick'
 
 FIXTURES_DIR = File.expand_path('../fixtures', __FILE__)
-
-using Corefines::String::unindent
 
 describe 'Integration tests' do
 
@@ -59,7 +56,7 @@ describe 'Integration tests' do
     end
 
     it 'is replaced by a warning when target is not found' do
-      given <<-ADOC.unindent
+      given <<~ADOC
         include::no-such-file.adoc[]
 
         trailing content
@@ -70,7 +67,7 @@ describe 'Integration tests' do
     end
 
     it 'is skipped when target is not found and optional option is set' do
-      given <<-ADOC.unindent
+      given <<~ADOC
         include::no-such-file.adoc[opts=optional]
 
         trailing content
@@ -131,7 +128,7 @@ describe 'Integration tests' do
     end
 
     it 'supports tagged selection in language that uses circumfix comments' do
-      given <<-ADOC.unindent
+      given <<~ADOC
         [source, ml]
         ----
         include::include-file.ml[tag=snippet]
