@@ -18,7 +18,6 @@ portions of the document to include.
 EOF
 
   s.files       = Dir['lib/**/*', '*.gemspec', 'LICENSE*', 'README*']
-  s.has_rdoc    = 'yard'
 
   s.required_ruby_version = '>= 2.1'
 
