@@ -8,7 +8,3 @@ unless ENV.fetch('ASCIIDOCTOR_VERSION', '').empty?
     gem 'asciidoctor', ENV['ASCIIDOCTOR_VERSION']
   end
 end
-
-group :ci do
-  gem 'codacy-coverage', '~> 1.1', require: false
-end
