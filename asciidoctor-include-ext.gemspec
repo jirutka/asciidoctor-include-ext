@@ -1,4 +1,4 @@
-require File.expand_path('../lib/asciidoctor/include_ext/version', __FILE__)
+require File.expand_path('lib/asciidoctor/include_ext/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name        = 'asciidoctor-include-ext'

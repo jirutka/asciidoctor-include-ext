@@ -2,7 +2,7 @@ require_relative 'spec_helper'
 require 'asciidoctor/include_ext/include_processor'
 require 'webrick'
 
-FIXTURES_DIR = File.expand_path('../fixtures', __FILE__)
+FIXTURES_DIR = File.expand_path('fixtures', __dir__)
 
 describe 'Integration tests' do
 
