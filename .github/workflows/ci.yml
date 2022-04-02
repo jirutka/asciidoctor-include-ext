@@ -17,6 +17,7 @@ jobs:
           - '2.6'
           - head
           - jruby-head
+          - truffleruby-head
         asciidoctor: [2.0.17]
         include:
           - { asciidoctor: 2.0.10    , ruby: 3.0 }
